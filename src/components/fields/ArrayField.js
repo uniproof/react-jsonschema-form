@@ -419,6 +419,8 @@ class ArrayField extends Component {
   };
 
   render() {
+    console.log("ArrayField", this.props);
+
     const {
       schema,
       uiSchema,
@@ -448,6 +450,8 @@ class ArrayField extends Component {
   }
 
   renderNormalArray() {
+    console.log("RenderNormalArray", this.props);
+
     const {
       schema,
       uiSchema,
@@ -710,6 +714,8 @@ class ArrayField extends Component {
   }
 
   renderArrayFieldItem(props) {
+    console.log("renderArrayFieldItem", props);
+
     const {
       key,
       index,
@@ -750,6 +756,7 @@ class ArrayField extends Component {
     return {
       children: (
         <SchemaField
+          index={index}
           schema={itemSchema}
           uiSchema={itemUiSchema}
           formData={itemData}
