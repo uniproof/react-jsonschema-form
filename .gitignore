@@ -119,7 +119,7 @@ build
 _build
 site
 dist
-lib
+# lib
 yarn.lock
 
 # IDE
