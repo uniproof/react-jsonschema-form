@@ -9,6 +9,8 @@ function EmailWidget(props) {
 if (process.env.NODE_ENV !== "production") {
   EmailWidget.propTypes = {
     value: PropTypes.string,
+    index: PropTypes.number,
+    index: PropTypes.number
   };
 }
 

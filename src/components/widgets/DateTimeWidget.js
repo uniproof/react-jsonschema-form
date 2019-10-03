@@ -37,8 +37,8 @@ function DateTimeWidget(props) {
     value,
     onChange,
     registry: {
-      widgets: { BaseInput },
-    },
+      widgets: { BaseInput }
+    }
   } = props;
   return (
     <BaseInput
@@ -53,6 +53,7 @@ function DateTimeWidget(props) {
 if (process.env.NODE_ENV !== "production") {
   DateTimeWidget.propTypes = {
     value: PropTypes.string,
+    index: PropTypes.number
   };
 }
 

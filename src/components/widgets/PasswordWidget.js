@@ -9,6 +9,7 @@ function PasswordWidget(props) {
 if (process.env.NODE_ENV !== "production") {
   PasswordWidget.propTypes = {
     value: PropTypes.string,
+    index: PropTypes.number
   };
 }
 

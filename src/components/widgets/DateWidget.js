@@ -5,8 +5,8 @@ function DateWidget(props) {
   const {
     onChange,
     registry: {
-      widgets: { BaseInput },
-    },
+      widgets: { BaseInput }
+    }
   } = props;
   return (
     <BaseInput
@@ -20,6 +20,7 @@ function DateWidget(props) {
 if (process.env.NODE_ENV !== "production") {
   DateWidget.propTypes = {
     value: PropTypes.string,
+    index: PropTypes.number
   };
 }
 

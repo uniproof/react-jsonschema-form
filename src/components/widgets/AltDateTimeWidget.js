@@ -15,12 +15,13 @@ if (process.env.NODE_ENV !== "production") {
     required: PropTypes.bool,
     onChange: PropTypes.func,
     options: PropTypes.object,
+    index: PropTypes.number
   };
 }
 
 AltDateTimeWidget.defaultProps = {
   ...AltDateWidget.defaultProps,
-  time: true,
+  time: true
 };
 
 export default AltDateTimeWidget;

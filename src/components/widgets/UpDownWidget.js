@@ -6,8 +6,8 @@ import { rangeSpec } from "../../utils";
 function UpDownWidget(props) {
   const {
     registry: {
-      widgets: { BaseInput },
-    },
+      widgets: { BaseInput }
+    }
   } = props;
   return <BaseInput type="number" {...props} {...rangeSpec(props.schema)} />;
 }
@@ -15,6 +15,7 @@ function UpDownWidget(props) {
 if (process.env.NODE_ENV !== "production") {
   UpDownWidget.propTypes = {
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    index: PropTypes.number
   };
 }
 

@@ -20,6 +20,7 @@ function BaseInput(props) {
     formContext,
     registry,
     rawErrors,
+    index,
     ...inputProps
   } = props;
 
@@ -72,6 +73,7 @@ function BaseInput(props) {
       onChange={_onChange}
       onBlur={onBlur && (event => onBlur(inputProps.id, event.target.value))}
       onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
+      index={index}
     />
   );
 }
@@ -80,7 +82,7 @@ BaseInput.defaultProps = {
   required: false,
   disabled: false,
   readonly: false,
-  autofocus: false,
+  autofocus: false
 };
 
 if (process.env.NODE_ENV !== "production") {
@@ -95,6 +97,7 @@ if (process.env.NODE_ENV !== "production") {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    index: PropTypes.number
   };
 }
 
