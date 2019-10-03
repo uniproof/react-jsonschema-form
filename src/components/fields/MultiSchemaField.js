@@ -7,7 +7,7 @@ import {
   guessType,
   retrieveSchema,
   getDefaultFormState,
-  getMatchingOption
+  getMatchingOption,
 } from "../../utils";
 
 class AnyOfField extends Component {
@@ -17,7 +17,7 @@ class AnyOfField extends Component {
     const { formData, options } = this.props;
 
     this.state = {
-      selectedOption: this.getMatchingOption(formData, options)
+      selectedOption: this.getMatchingOption(formData, options),
     };
   }
 
@@ -85,7 +85,7 @@ class AnyOfField extends Component {
     );
 
     this.setState({
-      selectedOption: parseInt(option, 10)
+      selectedOption: parseInt(option, 10),
     });
   };
 
@@ -103,7 +103,8 @@ class AnyOfField extends Component {
       options,
       registry,
       safeRenderCompletion,
-      uiSchema
+      uiSchema,
+      index,
     } = this.props;
 
     const _SchemaField = registry.fields.SchemaField;
@@ -125,7 +126,7 @@ class AnyOfField extends Component {
 
     const enumOptions = options.map((option, index) => ({
       label: option.title || `Option ${index + 1}`,
-      value: index
+      value: index,
     }));
 
     return (
@@ -170,7 +171,7 @@ AnyOfField.defaultProps = {
   disabled: false,
   errorSchema: {},
   idSchema: {},
-  uiSchema: {}
+  uiSchema: {},
 };
 
 if (process.env.NODE_ENV !== "production") {
@@ -181,7 +182,7 @@ if (process.env.NODE_ENV !== "production") {
     idSchema: PropTypes.object,
     formData: PropTypes.any,
     errorSchema: PropTypes.object,
-    registry: types.registry.isRequired
+    registry: types.registry.isRequired,
   };
 }
 
