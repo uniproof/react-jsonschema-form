@@ -104,8 +104,9 @@ class AnyOfField extends Component {
       registry,
       safeRenderCompletion,
       uiSchema,
-      index,
     } = this.props;
+
+    console.log(this.props);
 
     const _SchemaField = registry.fields.SchemaField;
     const { widgets } = registry;
@@ -140,7 +141,6 @@ class AnyOfField extends Component {
             onFocus={onFocus}
             value={selectedOption}
             options={{ enumOptions }}
-            index={index}
             {...uiOptions}
           />
         </div>
@@ -157,7 +157,6 @@ class AnyOfField extends Component {
             onBlur={onBlur}
             onFocus={onFocus}
             registry={registry}
-            index={index}
             safeRenderCompletion={safeRenderCompletion}
             disabled={disabled}
           />
