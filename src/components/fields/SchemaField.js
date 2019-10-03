@@ -225,6 +225,8 @@ function WrapIfAdditional(props) {
 }
 
 function SchemaFieldRender(props) {
+  console.log("SchemaRender", props);
+
   const {
     uiSchema,
     formData,
@@ -240,8 +242,12 @@ function SchemaFieldRender(props) {
   const { definitions, fields, formContext } = registry;
   const FieldTemplate =
     uiSchema["ui:FieldTemplate"] || registry.FieldTemplate || DefaultTemplate;
+
   let idSchema = props.idSchema;
+  const fatherIdSchema = props.idSchema;
+
   const schema = retrieveSchema(props.schema, definitions, formData);
+
   idSchema = mergeObjects(
     toIdSchema(schema, null, definitions, formData, idPrefix),
     idSchema
@@ -284,6 +290,7 @@ function SchemaFieldRender(props) {
     <FieldComponent
       {...props}
       idSchema={idSchema}
+      fatherIdSchema={fatherIdSchema.$id}
       schema={schema}
       uiSchema={{ ...uiSchema, classNames: undefined }}
       disabled={disabled}
@@ -371,6 +378,7 @@ function SchemaFieldRender(props) {
           formData={formData}
           idPrefix={idPrefix}
           idSchema={idSchema}
+          fatherIdSchema={fatherIdSchema}
           onBlur={props.onBlur}
           onChange={props.onChange}
           onFocus={props.onFocus}
@@ -416,6 +424,8 @@ class SchemaField extends React.Component {
   }
 
   render() {
+    console.log("SchemaField", this.props);
+
     return SchemaFieldRender(this.props);
   }
 }

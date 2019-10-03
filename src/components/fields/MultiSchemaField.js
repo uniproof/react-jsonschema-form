@@ -106,7 +106,7 @@ class AnyOfField extends Component {
       uiSchema,
     } = this.props;
 
-    console.log(this.props);
+    console.log("AnyOf props", this.props);
 
     const _SchemaField = registry.fields.SchemaField;
     const { widgets } = registry;
