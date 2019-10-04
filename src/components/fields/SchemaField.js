@@ -228,6 +228,7 @@ function SchemaFieldRender(props) {
   console.log("SchemaRender", props);
 
   const {
+    index,
     uiSchema,
     formData,
     errorSchema,
@@ -289,6 +290,7 @@ function SchemaFieldRender(props) {
   const field = (
     <FieldComponent
       {...props}
+      index={index}
       idSchema={idSchema}
       fatherIdSchema={fatherIdSchema}
       schema={schema}
@@ -343,6 +345,7 @@ function SchemaFieldRender(props) {
     rawHelp: typeof help === "string" ? help : undefined,
     errors: <ErrorList errors={errors} />,
     rawErrors: errors,
+    index,
     id,
     label,
     hidden,
@@ -373,6 +376,7 @@ function SchemaFieldRender(props) {
       */}
       {schema.anyOf && !isSelect(schema) && (
         <_AnyOfField
+          index={index}
           disabled={disabled}
           errorSchema={errorSchema}
           formData={formData}
@@ -393,6 +397,7 @@ function SchemaFieldRender(props) {
 
       {schema.oneOf && !isSelect(schema) && (
         <_OneOfField
+          index={index}
           disabled={disabled}
           errorSchema={errorSchema}
           formData={formData}

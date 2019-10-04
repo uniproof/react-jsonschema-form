@@ -91,6 +91,7 @@ class AnyOfField extends Component {
 
   render() {
     const {
+      index,
       baseType,
       disabled,
       errorSchema,
@@ -150,6 +151,7 @@ class AnyOfField extends Component {
             schema={optionSchema}
             uiSchema={uiSchema}
             errorSchema={errorSchema}
+            index={index}
             idSchema={idSchema}
             idPrefix={idPrefix}
             formData={formData}

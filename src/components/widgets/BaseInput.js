@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function BaseInput(props) {
+  console.log("BaseInput", props);
+
   // Note: since React 15.2.0 we can't forward unknown element attributes, so we
   // exclude the "options" and "schema" ones here.
   if (!props.id) {
@@ -82,7 +84,7 @@ BaseInput.defaultProps = {
   required: false,
   disabled: false,
   readonly: false,
-  autofocus: false
+  autofocus: false,
 };
 
 if (process.env.NODE_ENV !== "production") {
@@ -97,7 +99,7 @@ if (process.env.NODE_ENV !== "production") {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
-    index: PropTypes.number
+    index: PropTypes.number,
   };
 }
 
