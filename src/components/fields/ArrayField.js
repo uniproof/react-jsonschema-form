@@ -16,7 +16,7 @@ import {
   optionsList,
   retrieveSchema,
   toIdSchema,
-  getDefaultRegistry,
+  getDefaultRegistry
 } from "../../utils";
 import shortid from "shortid";
 
@@ -38,13 +38,11 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
 
 // Used in the two templates
 function DefaultArrayItem(props) {
-  console.log("DefaultArrayItem", props);
-
   const btnStyle = {
     flex: 1,
     paddingLeft: 6,
     paddingRight: 6,
-    fontWeight: "bold",
+    fontWeight: "bold"
   };
   return (
     <div key={props.key} className={props.className}>
@@ -58,8 +56,9 @@ function DefaultArrayItem(props) {
             className="btn-group"
             style={{
               display: "flex",
-              justifyContent: "space-around",
-            }}>
+              justifyContent: "space-around"
+            }}
+          >
             {(props.hasMoveUp || props.hasMoveDown) && (
               <IconButton
                 icon="arrow-up"
@@ -116,14 +115,16 @@ function DefaultFixedArrayFieldTemplate(props) {
       {(props.uiSchema["ui:description"] || props.schema.description) && (
         <div
           className="field-description"
-          key={`field-description-${props.idSchema.$id}`}>
+          key={`field-description-${props.idSchema.$id}`}
+        >
           {props.uiSchema["ui:description"] || props.schema.description}
         </div>
       )}
 
       <div
         className="row array-item-list"
-        key={`array-item-list-${props.idSchema.$id}`}>
+        key={`array-item-list-${props.idSchema.$id}`}
+      >
         {props.items && props.items.map(DefaultArrayItem)}
       </div>
 
@@ -139,8 +140,6 @@ function DefaultFixedArrayFieldTemplate(props) {
 }
 
 function DefaultNormalArrayFieldTemplate(props) {
-  console.log("DefaultNormalArrayFieldTemplate", props);
-
   return (
     <fieldset className={props.className} id={props.idSchema.$id}>
       <ArrayFieldTitle
@@ -164,7 +163,8 @@ function DefaultNormalArrayFieldTemplate(props) {
 
       <div
         className="row array-item-list"
-        key={`array-item-list-${props.idSchema.$id}`}>
+        key={`array-item-list-${props.idSchema.$id}`}
+      >
         {props.items && props.items.map(p => DefaultArrayItem(p))}
       </div>
 
@@ -189,7 +189,7 @@ function generateKeyedFormData(formData) {
     : formData.map(item => {
         return {
           key: generateRowId(),
-          item,
+          item
         };
       });
 }
@@ -206,7 +206,7 @@ class ArrayField extends Component {
     required: false,
     disabled: false,
     readonly: false,
-    autofocus: false,
+    autofocus: false
   };
 
   constructor(props) {
@@ -215,7 +215,7 @@ class ArrayField extends Component {
     const keyedFormData = generateKeyedFormData(formData);
     this.state = {
       keyedFormData,
-      updatedKeyedFormData: false,
+      updatedKeyedFormData: false
     };
   }
 
@@ -223,7 +223,7 @@ class ArrayField extends Component {
     // Don't call getDerivedStateFromProps if keyed formdata was just updated.
     if (prevState.updatedKeyedFormData) {
       return {
-        updatedKeyedFormData: false,
+        updatedKeyedFormData: false
       };
     }
     const nextFormData = nextProps.formData;
@@ -233,12 +233,12 @@ class ArrayField extends Component {
         ? previousKeyedFormData.map((previousKeyedFormDatum, index) => {
             return {
               key: previousKeyedFormDatum.key,
-              item: nextFormData[index],
+              item: nextFormData[index]
             };
           })
         : generateKeyedFormData(nextFormData);
     return {
-      keyedFormData: newKeyedFormData,
+      keyedFormData: newKeyedFormData
     };
   }
 
@@ -288,13 +288,13 @@ class ArrayField extends Component {
     const { onChange } = this.props;
     const newKeyedFormDataRow = {
       key: generateRowId(),
-      item: this._getNewFormDataRow(),
+      item: this._getNewFormDataRow()
     };
     const newKeyedFormData = [...this.state.keyedFormData, newKeyedFormDataRow];
     this.setState(
       {
         keyedFormData: newKeyedFormData,
-        updatedKeyedFormData: true,
+        updatedKeyedFormData: true
       },
       () => onChange(keyedToPlainFormData(newKeyedFormData))
     );
@@ -308,7 +308,7 @@ class ArrayField extends Component {
       const { onChange } = this.props;
       const newKeyedFormDataRow = {
         key: generateRowId(),
-        item: this._getNewFormDataRow(),
+        item: this._getNewFormDataRow()
       };
       let newKeyedFormData = [...this.state.keyedFormData];
       newKeyedFormData.splice(index, 0, newKeyedFormDataRow);
@@ -316,7 +316,7 @@ class ArrayField extends Component {
       this.setState(
         {
           keyedFormData: newKeyedFormData,
-          updatedKeyedFormData: true,
+          updatedKeyedFormData: true
         },
         () => onChange(keyedToPlainFormData(newKeyedFormData))
       );
@@ -348,7 +348,7 @@ class ArrayField extends Component {
       this.setState(
         {
           keyedFormData: newKeyedFormData,
-          updatedKeyedFormData: true,
+          updatedKeyedFormData: true
         },
         () => onChange(keyedToPlainFormData(newKeyedFormData), newErrorSchema)
       );
@@ -391,7 +391,7 @@ class ArrayField extends Component {
       const newKeyedFormData = reOrderArray();
       this.setState(
         {
-          keyedFormData: newKeyedFormData,
+          keyedFormData: newKeyedFormData
         },
         () => onChange(keyedToPlainFormData(newKeyedFormData), newErrorSchema)
       );
@@ -412,7 +412,7 @@ class ArrayField extends Component {
         errorSchema &&
           this.props.errorSchema && {
             ...this.props.errorSchema,
-            [index]: errorSchema,
+            [index]: errorSchema
           }
       );
     };
@@ -423,13 +423,11 @@ class ArrayField extends Component {
   };
 
   render() {
-    console.log("ArrayField", this.props);
-
     const {
       schema,
       uiSchema,
       idSchema,
-      registry = getDefaultRegistry(),
+      registry = getDefaultRegistry()
     } = this.props;
     const { definitions } = registry;
     if (!schema.hasOwnProperty("items")) {
@@ -442,24 +440,19 @@ class ArrayField extends Component {
       );
     }
     if (isFixedItems(schema)) {
-      console.log("Fixed Items");
       return this.renderFixedArray();
     }
     if (isFilesArray(schema, uiSchema, definitions)) {
-      console.log("File Array");
       return this.renderFiles();
     }
     if (isMultiSelect(schema, definitions)) {
-      console.log("Multiselect");
       return this.renderMultiSelect();
     }
-    console.log("Normal Array");
+
     return this.renderNormalArray();
   }
 
   renderNormalArray() {
-    console.log("RenderNormalArray", this.props);
-
     const {
       schema,
       uiSchema,
@@ -475,7 +468,7 @@ class ArrayField extends Component {
       onBlur,
       onFocus,
       idPrefix,
-      rawErrors,
+      rawErrors
     } = this.props;
     const title = schema.title === undefined ? name : schema.title;
     const { ArrayFieldTemplate, definitions, fields, formContext } = registry;
@@ -507,7 +500,7 @@ class ArrayField extends Component {
           itemUiSchema: uiSchema.items,
           autofocus: autofocus && index === 0,
           onBlur,
-          onFocus,
+          onFocus
         });
       }),
       className: `field field-array field-array-of-${itemsSchema.type}`,
@@ -524,7 +517,7 @@ class ArrayField extends Component {
       formContext,
       formData,
       rawErrors,
-      registry,
+      registry
     };
 
     // Check if a custom render function was passed in
@@ -532,8 +525,6 @@ class ArrayField extends Component {
       uiSchema["ui:ArrayFieldTemplate"] ||
       ArrayFieldTemplate ||
       DefaultNormalArrayFieldTemplate;
-
-    console.log("Component", Component);
 
     return <Component {...arrayProps} />;
   }
@@ -553,7 +544,7 @@ class ArrayField extends Component {
       onBlur,
       onFocus,
       registry = getDefaultRegistry(),
-      rawErrors,
+      rawErrors
     } = this.props;
     const items = this.props.formData;
     const { widgets, definitions, formContext } = registry;
@@ -561,7 +552,7 @@ class ArrayField extends Component {
     const enumOptions = optionsList(itemsSchema);
     const { widget = "select", ...options } = {
       ...getUiOptions(uiSchema),
-      enumOptions,
+      enumOptions
     };
     const Widget = getWidget(schema, widget, widgets);
     return (
@@ -599,7 +590,7 @@ class ArrayField extends Component {
       onBlur,
       onFocus,
       registry = getDefaultRegistry(),
-      rawErrors,
+      rawErrors
     } = this.props;
     const title = schema.title || name;
     const items = this.props.formData;
@@ -642,7 +633,7 @@ class ArrayField extends Component {
       registry = getDefaultRegistry(),
       onBlur,
       onFocus,
-      rawErrors,
+      rawErrors
     } = this.props;
     const title = schema.title || name;
     let items = this.props.formData;
@@ -702,7 +693,7 @@ class ArrayField extends Component {
           itemErrorSchema,
           autofocus: autofocus && index === 0,
           onBlur,
-          onFocus,
+          onFocus
         });
       }),
       onAddClick: this.onAddClick,
@@ -713,7 +704,7 @@ class ArrayField extends Component {
       title,
       TitleField,
       formContext,
-      rawErrors,
+      rawErrors
     };
 
     // Check if a custom template template was passed in
@@ -725,8 +716,6 @@ class ArrayField extends Component {
   }
 
   renderArrayFieldItem(props) {
-    console.log("renderArrayFieldItem", props);
-
     const {
       key,
       index,
@@ -741,26 +730,26 @@ class ArrayField extends Component {
       autofocus,
       onBlur,
       onFocus,
-      rawErrors,
+      rawErrors
     } = props;
     const {
       disabled,
       readonly,
       uiSchema,
-      registry = getDefaultRegistry(),
+      registry = getDefaultRegistry()
     } = this.props;
     const {
-      fields: { SchemaField },
+      fields: { SchemaField }
     } = registry;
     const { orderable, removable } = {
       orderable: true,
       removable: true,
-      ...uiSchema["ui:options"],
+      ...uiSchema["ui:options"]
     };
     const has = {
       moveUp: orderable && canMoveUp,
       moveDown: orderable && canMoveDown,
-      remove: removable && canRemove,
+      remove: removable && canRemove
     };
     has.toolbar = Object.keys(has).some(key => has[key]);
 
@@ -795,7 +784,7 @@ class ArrayField extends Component {
       onAddIndexClick: this.onAddIndexClick,
       onDropIndexClick: this.onDropIndexClick,
       onReorderClick: this.onReorderClick,
-      readonly,
+      readonly
     };
   }
 }

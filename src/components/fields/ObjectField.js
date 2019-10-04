@@ -195,9 +195,6 @@ class ObjectField extends Component {
   };
 
   render() {
-    console.group("ObjectField");
-    console.log("ObjectField", this.props);
-
     const {
       uiSchema,
       formData,
@@ -218,8 +215,7 @@ class ObjectField extends Component {
     const { definitions, fields, formContext } = registry;
     const { SchemaField, TitleField, DescriptionField } = fields;
     const schema = retrieveSchema(this.props.schema, definitions, formData);
-    console.log("schema", this.props.schema);
-    console.log("schema new", schema);
+
     // If this schema has a title defined, but the user has set a new key/label, retain their input.
     let title;
     if (this.state.wasPropertyKeyModified) {
@@ -259,8 +255,7 @@ class ObjectField extends Component {
         const addedByAdditionalProperties = schema.properties[
           name
         ].hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
-        console.log("idSchema", idSchema);
-        console.log("father", fatherIdSchema);
+
         return {
           content: (
             <SchemaField
@@ -308,7 +303,7 @@ class ObjectField extends Component {
       formData,
       formContext
     };
-    console.groupEnd();
+
     return <Template {...templateProps} onAddClick={this.handleAddClick} />;
   }
 }

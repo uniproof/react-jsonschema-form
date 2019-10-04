@@ -61,12 +61,10 @@ function SelectWidget(props) {
     onBlur,
     onFocus,
     placeholder,
-    index,
+    index
   } = props;
   const { enumOptions, enumDisabled } = options;
   const emptyValue = multiple ? [] : "";
-
-  console.log("SelectWidget props", props);
 
   return (
     <select
@@ -95,7 +93,8 @@ function SelectWidget(props) {
       onChange={event => {
         const newValue = getValue(event, multiple);
         onChange(processValue(schema, newValue));
-      }}>
+      }}
+    >
       {!multiple && schema.default === undefined && (
         <option value="">{placeholder}</option>
       )}
@@ -112,7 +111,7 @@ function SelectWidget(props) {
 }
 
 SelectWidget.defaultProps = {
-  autofocus: false,
+  autofocus: false
 };
 
 if (process.env.NODE_ENV !== "production") {
@@ -120,7 +119,7 @@ if (process.env.NODE_ENV !== "production") {
     schema: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
     options: PropTypes.shape({
-      enumOptions: PropTypes.array,
+      enumOptions: PropTypes.array
     }).isRequired,
     value: PropTypes.any,
     required: PropTypes.bool,
@@ -131,7 +130,7 @@ if (process.env.NODE_ENV !== "production") {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
-    index: PropTypes.number,
+    index: PropTypes.number
   };
 }
 
