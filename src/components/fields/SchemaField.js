@@ -246,9 +246,6 @@ function SchemaFieldRender(props) {
   const fatherIdSchema = props.idSchema;
   let idSchema = props.idSchema;
 
-  console.log("fatherIdSchema", fatherIdSchema);
-  console.log("props.idSchema", props.idSchema);
-
   const schema = retrieveSchema(props.schema, definitions, formData);
 
   idSchema = mergeObjects(

@@ -38,6 +38,8 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
 
 // Used in the two templates
 function DefaultArrayItem(props) {
+  console.log("DefaultArrayItem", props);
+
   const btnStyle = {
     flex: 1,
     paddingLeft: 6,
@@ -137,6 +139,8 @@ function DefaultFixedArrayFieldTemplate(props) {
 }
 
 function DefaultNormalArrayFieldTemplate(props) {
+  console.log("DefaultNormalArrayFieldTemplate", props);
+
   return (
     <fieldset className={props.className} id={props.idSchema.$id}>
       <ArrayFieldTitle
@@ -438,14 +442,18 @@ class ArrayField extends Component {
       );
     }
     if (isFixedItems(schema)) {
+      console.log("Fixed Items");
       return this.renderFixedArray();
     }
     if (isFilesArray(schema, uiSchema, definitions)) {
+      console.log("File Array");
       return this.renderFiles();
     }
     if (isMultiSelect(schema, definitions)) {
+      console.log("Multiselect");
       return this.renderMultiSelect();
     }
+    console.log("Normal Array");
     return this.renderNormalArray();
   }
 
@@ -524,6 +532,9 @@ class ArrayField extends Component {
       uiSchema["ui:ArrayFieldTemplate"] ||
       ArrayFieldTemplate ||
       DefaultNormalArrayFieldTemplate;
+
+    console.log("Component", Component);
+
     return <Component {...arrayProps} />;
   }
 
