@@ -244,7 +244,7 @@ function SchemaFieldRender(props) {
   const FieldTemplate =
     uiSchema["ui:FieldTemplate"] || registry.FieldTemplate || DefaultTemplate;
 
-  const fatherIdSchema = props.idSchema;
+  const fatherIdSchema = props.fatherIdSchema || props.idSchema;
   let idSchema = props.idSchema;
 
   const schema = retrieveSchema(props.schema, definitions, formData);
@@ -400,6 +400,7 @@ function SchemaFieldRender(props) {
           index={index}
           disabled={disabled}
           errorSchema={errorSchema}
+          fatherIdSchema={fatherIdSchema}
           formData={formData}
           idPrefix={idPrefix}
           idSchema={idSchema}

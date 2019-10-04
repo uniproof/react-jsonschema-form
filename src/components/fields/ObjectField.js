@@ -195,11 +195,14 @@ class ObjectField extends Component {
   };
 
   render() {
+    console.log("ObjectField", this.props);
+
     const {
       uiSchema,
       formData,
       errorSchema,
       idSchema,
+      fatherIdSchema,
       name,
       required,
       disabled,
@@ -267,6 +270,7 @@ class ObjectField extends Component {
               }
               errorSchema={errorSchema[name]}
               idSchema={idSchema[name]}
+              fatherIdSchema={fatherIdSchema || idSchema}
               idPrefix={idPrefix}
               formData={(formData || {})[name]}
               wasPropertyKeyModified={this.state.wasPropertyKeyModified}
