@@ -101,16 +101,36 @@ function DefaultArrayItem(props) {
   );
 }
 
+function showTitle(props) {
+  let showTitle = true;
+
+  if (props.uiSchema["ui:options"]) {
+    const {
+      uiSchema: {
+        "ui:options": { title }
+      }
+    } = props;
+
+    if (typeof title === "boolean") {
+      showTitle = title;
+    }
+  }
+
+  return showTitle;
+}
+
 function DefaultFixedArrayFieldTemplate(props) {
   return (
     <fieldset className={props.className} id={props.idSchema.$id}>
-      <ArrayFieldTitle
-        key={`array-field-title-${props.idSchema.$id}`}
-        TitleField={props.TitleField}
-        idSchema={props.idSchema}
-        title={props.uiSchema["ui:title"] || props.title}
-        required={props.required}
-      />
+      {showTitle(props) ? (
+        <ArrayFieldTitle
+          key={`array-field-title-${props.idSchema.$id}`}
+          TitleField={props.TitleField}
+          idSchema={props.idSchema}
+          title={props.uiSchema["ui:title"] || props.title}
+          required={props.required}
+        />
+      ) : null}
 
       {(props.uiSchema["ui:description"] || props.schema.description) && (
         <div
@@ -142,13 +162,15 @@ function DefaultFixedArrayFieldTemplate(props) {
 function DefaultNormalArrayFieldTemplate(props) {
   return (
     <fieldset className={props.className} id={props.idSchema.$id}>
-      <ArrayFieldTitle
-        key={`array-field-title-${props.idSchema.$id}`}
-        TitleField={props.TitleField}
-        idSchema={props.idSchema}
-        title={props.uiSchema["ui:title"] || props.title}
-        required={props.required}
-      />
+      {showTitle(props) ? (
+        <ArrayFieldTitle
+          key={`array-field-title-${props.idSchema.$id}`}
+          TitleField={props.TitleField}
+          idSchema={props.idSchema}
+          title={props.uiSchema["ui:title"] || props.title}
+          required={props.required}
+        />
+      ) : null}
 
       {(props.uiSchema["ui:description"] || props.schema.description) && (
         <ArrayFieldDescription
@@ -555,6 +577,7 @@ class ArrayField extends Component {
       enumOptions
     };
     const Widget = getWidget(schema, widget, widgets);
+
     return (
       <Widget
         id={idSchema && idSchema.$id}
