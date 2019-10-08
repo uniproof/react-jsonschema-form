@@ -29,9 +29,24 @@ function DefaultObjectFieldTemplate(props) {
   };
 
   const { TitleField, DescriptionField } = props;
+
+  let showTitle = true;
+
+  if (props.uiSchema["ui:options"]) {
+    const {
+      uiSchema: {
+        "ui:options": { title }
+      }
+    } = props;
+
+    if (typeof title === "boolean") {
+      showTitle = title;
+    }
+  }
+
   return (
     <fieldset id={props.idSchema.$id}>
-      {(props.uiSchema["ui:title"] || props.title) && (
+      {(props.uiSchema["ui:title"] || props.title) && showTitle && (
         <TitleField
           id={`${props.idSchema.$id}__title`}
           title={props.title || props.uiSchema["ui:title"]}
