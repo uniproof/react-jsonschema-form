@@ -1018,10 +1018,6 @@ export function rangeSpec(schema) {
 }
 
 export function getMatchingOption(formData, options, definitions) {
-  console.group("Util/getMatchingOption");
-  console.log("formData", formData);
-  console.log("options", options);
-  console.log("definitions", definitions);
   for (let i = 0; i < options.length; i++) {
     // Assign the definitions to the option, otherwise the match can fail if
     // the new option uses a $ref
@@ -1040,7 +1036,6 @@ export function getMatchingOption(formData, options, definitions) {
     // schema should match if any of the keys in the schema are present on the
     // object and pass validation.
     if (option.properties && formData) {
-      console.log("properties");
       const keyList = Object.keys(formData);
       let valid = false;
 
@@ -1096,16 +1091,9 @@ export function getMatchingOption(formData, options, definitions) {
       //   return i;
       // }
     } else if (isValid(options[i], formData)) {
-      console.log(
-        "isValid(options[i], formData)",
-        isValid(options[i], formData)
-      );
-      console.log("return 2");
-      console.groupEnd();
       return i;
     }
   }
-  console.log("return 3");
-  console.groupEnd();
+  
   return 0;
 }

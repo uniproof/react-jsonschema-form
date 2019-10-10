@@ -35,21 +35,14 @@ class AnyOfField extends Component {
   }
 
   getMatchingOption(formData, options) {
-    console.group("getMatchingOption");
-    console.log("formData", formData);
-    console.log("options", options);
     const { definitions } = this.props.registry;
 
     let option = getMatchingOption(formData, options, definitions);
-    console.log("option", option);
+
     if (option !== 0) {
-      console.log("option !== 0");
-      console.groupEnd();
       return option;
     }
-    console.log("foi");
-    console.log(this && this.state ? this.state.selectedOption : 0);
-    console.groupEnd();
+
     // If the form data matches none of the options, use the currently selected
     // option, assuming it's available; otherwise use the first option
     return this && this.state ? this.state.selectedOption : 0;
@@ -115,7 +108,7 @@ class AnyOfField extends Component {
       safeRenderCompletion,
       uiSchema
     } = this.props;
-    // console.log(this.props);
+
     const _SchemaField = registry.fields.SchemaField;
     const { widgets } = registry;
     const { selectedOption } = this.state;
