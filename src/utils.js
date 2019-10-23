@@ -197,9 +197,33 @@ function computeDefaults(
   } else if ("oneOf" in schema) {
     schema =
       schema.oneOf[getMatchingOption(undefined, schema.oneOf, definitions)];
+
+    if ("$ref" in schema) {
+      // Use referenced schema defaults for this node.
+      const refSchema = findSchemaDefinition(schema.$ref, definitions);
+      return computeDefaults(
+        refSchema,
+        defaults,
+        definitions,
+        formData,
+        includeUndefinedValues
+      );
+    }
   } else if ("anyOf" in schema) {
     schema =
       schema.anyOf[getMatchingOption(undefined, schema.anyOf, definitions)];
+
+    if ("$ref" in schema) {
+      // Use referenced schema defaults for this node.
+      const refSchema = findSchemaDefinition(schema.$ref, definitions);
+      return computeDefaults(
+        refSchema,
+        defaults,
+        definitions,
+        formData,
+        includeUndefinedValues
+      );
+    }
   }
 
   // Not defaults defined for this node, fallback to generic typed ones.
@@ -1094,6 +1118,6 @@ export function getMatchingOption(formData, options, definitions) {
       return i;
     }
   }
-  
+
   return 0;
 }
