@@ -10,7 +10,7 @@ const widgetMap = {
     checkbox: "CheckboxWidget",
     radio: "RadioWidget",
     select: "SelectWidget",
-    hidden: "HiddenWidget",
+    hidden: "HiddenWidget"
   },
   string: {
     text: "TextWidget",
@@ -31,7 +31,7 @@ const widgetMap = {
     "alt-date": "AltDateWidget",
     "alt-datetime": "AltDateTimeWidget",
     color: "ColorWidget",
-    file: "FileWidget",
+    file: "FileWidget"
   },
   number: {
     text: "TextWidget",
@@ -39,7 +39,7 @@ const widgetMap = {
     updown: "UpDownWidget",
     range: "RangeWidget",
     radio: "RadioWidget",
-    hidden: "HiddenWidget",
+    hidden: "HiddenWidget"
   },
   integer: {
     text: "TextWidget",
@@ -47,14 +47,14 @@ const widgetMap = {
     updown: "UpDownWidget",
     range: "RangeWidget",
     radio: "RadioWidget",
-    hidden: "HiddenWidget",
+    hidden: "HiddenWidget"
   },
   array: {
     select: "SelectWidget",
     checkboxes: "CheckboxesWidget",
     files: "FileWidget",
-    hidden: "HiddenWidget",
-  },
+    hidden: "HiddenWidget"
+  }
 };
 
 export function getDefaultRegistry() {
@@ -62,7 +62,7 @@ export function getDefaultRegistry() {
     fields: require("./components/fields").default,
     widgets: require("./components/widgets").default,
     definitions: {},
-    formContext: {},
+    formContext: {}
   };
 }
 
@@ -197,9 +197,33 @@ function computeDefaults(
   } else if ("oneOf" in schema) {
     schema =
       schema.oneOf[getMatchingOption(undefined, schema.oneOf, definitions)];
+
+    if ("$ref" in schema) {
+      // Use referenced schema defaults for this node.
+      const refSchema = findSchemaDefinition(schema.$ref, definitions);
+      return computeDefaults(
+        refSchema,
+        defaults,
+        definitions,
+        formData,
+        includeUndefinedValues
+      );
+    }
   } else if ("anyOf" in schema) {
     schema =
       schema.anyOf[getMatchingOption(undefined, schema.anyOf, definitions)];
+
+    if ("$ref" in schema) {
+      // Use referenced schema defaults for this node.
+      const refSchema = findSchemaDefinition(schema.$ref, definitions);
+      return computeDefaults(
+        refSchema,
+        defaults,
+        definitions,
+        formData,
+        includeUndefinedValues
+      );
+    }
   }
 
   // Not defaults defined for this node, fallback to generic typed ones.
@@ -297,7 +321,7 @@ export function getUiOptions(uiSchema) {
         return {
           ...options,
           ...(value.options || {}),
-          widget: value.component,
+          widget: value.component
         };
       }
       if (key === "ui:options" && isObject(value)) {
@@ -539,7 +563,7 @@ export function stubExistingAdditionalProperties(
   // Clone the schema so we don't ruin the consumer's original
   schema = {
     ...schema,
-    properties: { ...schema.properties },
+    properties: { ...schema.properties }
   };
 
   Object.keys(formData).forEach(key => {
@@ -735,8 +759,8 @@ function withExactlyOneSubschema(
       const conditionSchema = {
         type: "object",
         properties: {
-          [dependencyKey]: conditionPropertySchema,
-        },
+          [dependencyKey]: conditionPropertySchema
+        }
       };
       const { errors } = validateFormData(formData, conditionSchema);
       return errors.length === 0;
@@ -858,7 +882,7 @@ export function toIdSchema(
   idPrefix = "root"
 ) {
   const idSchema = {
-    $id: id || idPrefix,
+    $id: id || idPrefix
   };
   if ("$ref" in schema || "dependencies" in schema) {
     const _schema = retrieveSchema(schema, definitions, formData);
@@ -888,7 +912,7 @@ export function toIdSchema(
 
 export function toPathSchema(schema, name = "", definitions, formData = {}) {
   const pathSchema = {
-    $name: name.replace(/^\./, ""),
+    $name: name.replace(/^\./, "")
   };
   if ("$ref" in schema || "dependencies" in schema) {
     const _schema = retrieveSchema(schema, definitions, formData);
@@ -926,7 +950,7 @@ export function parseDateString(dateString, includeTime = true) {
       day: -1,
       hour: includeTime ? -1 : 0,
       minute: includeTime ? -1 : 0,
-      second: includeTime ? -1 : 0,
+      second: includeTime ? -1 : 0
     };
   }
   const date = new Date(dateString);
@@ -939,7 +963,7 @@ export function parseDateString(dateString, includeTime = true) {
     day: date.getUTCDate(),
     hour: includeTime ? date.getUTCHours() : 0,
     minute: includeTime ? date.getUTCMinutes() : 0,
-    second: includeTime ? date.getUTCSeconds() : 0,
+    second: includeTime ? date.getUTCSeconds() : 0
   };
 }
 
@@ -1023,7 +1047,7 @@ export function getMatchingOption(formData, options, definitions) {
     // the new option uses a $ref
     const option = Object.assign(
       {
-        definitions,
+        definitions
       },
       options[i]
     );
@@ -1035,46 +1059,65 @@ export function getMatchingOption(formData, options, definitions) {
     // "anyOf" with an array of requires. This augmentation expresses that the
     // schema should match if any of the keys in the schema are present on the
     // object and pass validation.
-    if (option.properties) {
-      // Create an "anyOf" schema that requires at least one of the keys in the
-      // "properties" object
-      const requiresAnyOf = {
-        anyOf: Object.keys(option.properties).map(key => ({
-          required: [key],
-        })),
-      };
+    if (option.properties && formData) {
+      const keyList = Object.keys(formData);
+      let valid = false;
 
-      let augmentedSchema;
-
-      // If the "anyOf" keyword already exists, wrap the augmentation in an "allOf"
-      if (option.anyOf) {
-        // Create a shallow clone of the option
-        const { ...shallowClone } = option;
-
-        if (!shallowClone.allOf) {
-          shallowClone.allOf = [];
-        } else {
-          // If "allOf" already exists, shallow clone the array
-          shallowClone.allOf = shallowClone.allOf.slice();
+      keyList.forEach(key => {
+        if (option.properties[key]) {
+          valid = true;
         }
+      });
 
-        shallowClone.allOf.push(requiresAnyOf);
-
-        augmentedSchema = shallowClone;
-      } else {
-        augmentedSchema = Object.assign({}, option, requiresAnyOf);
-      }
-
-      // Remove the "required" field as it's likely that not all fields have
-      // been filled in yet, which will mean that the schema is not valid
-      delete augmentedSchema.required;
-
-      if (isValid(augmentedSchema, formData)) {
+      if (valid) {
         return i;
       }
+      // Create an "anyOf" schema that requires at least one of the keys in the
+      // "properties" object
+      // const requiresAnyOf = {
+      //   anyOf: Object.keys(option.properties).map(key => ({
+      //     required: [key]
+      //   }))
+      // };
+      // console.log("requiresAnyOf", requiresAnyOf);
+
+      // let augmentedSchema;
+
+      // // If the "anyOf" keyword already exists, wrap the augmentation in an "allOf"
+      // if (option.anyOf) {
+      //   // Create a shallow clone of the option
+      //   const { ...shallowClone } = option;
+
+      //   if (!shallowClone.allOf) {
+      //     shallowClone.allOf = [];
+      //   } else {
+      //     // If "allOf" already exists, shallow clone the array
+      //     shallowClone.allOf = shallowClone.allOf.slice();
+      //   }
+
+      //   shallowClone.allOf.push(requiresAnyOf);
+
+      //   augmentedSchema = shallowClone;
+      // } else {
+      //   augmentedSchema = Object.assign({}, option, requiresAnyOf);
+      // }
+      // console.log("augmentedSchema", augmentedSchema);
+      // // Remove the "required" field as it's likely that not all fields have
+      // // been filled in yet, which will mean that the schema is not valid
+      // delete augmentedSchema.required;
+      // console.log(
+      //   "isValid(augmentedSchema, formData)",
+      //   isValid(augmentedSchema, formData)
+      // );
+      // if (isValid(augmentedSchema, formData)) {
+      //   console.log("return 1");
+      //   console.groupEnd();
+      //   return i;
+      // }
     } else if (isValid(options[i], formData)) {
       return i;
     }
   }
+
   return 0;
 }
