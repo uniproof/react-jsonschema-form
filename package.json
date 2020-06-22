@@ -16,6 +16,13 @@
     "start": "lerna run start --stream --parallel"
   },
   "dependencies": {
+    "@babel/runtime-corejs2": "^7.4.5",
+    "ajv": "^6.12.2",
+    "core-js": "^2.5.7",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react-is": "^16.9.0",
+    "shortid": "^2.2.14"
     "prettier": "^1.18.2",
     "lerna": "^3.18.3"
   },

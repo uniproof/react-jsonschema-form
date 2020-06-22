@@ -19,6 +19,7 @@ export const fieldProps = {
   errorSchema: PropTypes.object,
   formData: PropTypes.any,
   idSchema: PropTypes.object,
+  fatherIdSchema: PropTypes.object,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
