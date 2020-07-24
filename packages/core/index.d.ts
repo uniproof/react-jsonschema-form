@@ -99,6 +99,7 @@ declare module '@rjsf/core' {
         > {
         id: string;
         schema: JSONSchema7;
+        uiSchema: UiSchema;
         value: any;
         required: boolean;
         disabled: boolean;
@@ -110,7 +111,6 @@ declare module '@rjsf/core' {
         onBlur: (id: string, value: boolean | number | string | null) => void;
         onFocus: (id: string, value: boolean | number | string | null) => void;
         label: string;
-        type: string;
         multiple: boolean;
         rawErrors: string[];
     }
@@ -312,6 +312,8 @@ declare module '@rjsf/core' {
 
         export function getUiOptions(uiSchema: UiSchema): UiSchema['ui:options'];
 
+        export function getDisplayLabel(schema: JSONSchema7, uiSchema: UiSchema, rootSchema?: JSONSchema7): boolean;
+
         export function isObject(thing: any): boolean;
 
         export function mergeObjects(obj1: object, obj2: object, concatArrays?: boolean): object;
@@ -415,6 +417,8 @@ declare module '@rjsf/core' {
             options: JSONSchema7[],
             definitions: FieldProps['registry']['definitions'],
         ): number;
+
+        export function schemaRequiresTrueValue(schema: JSONSchema7): boolean;
     }
 }
 
